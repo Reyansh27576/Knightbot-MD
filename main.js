@@ -142,6 +142,7 @@ const { anticallCommand, readState: readAnticallState } = require('./commands/an
 const { pmblockerCommand, readState: readPmBlockerState } = require('./commands/pmblocker');
 const settingsCommand = require('./commands/settings');
 const soraCommand = require('./commands/sora');
+const { handleListCommand, handleNewListCommand } = require('./commands/list');
 
 // Global settings
 global.packname = settings.packname;
@@ -444,6 +445,17 @@ async function handleMessages(sock, messageUpdate, printLog) {
                 await attpCommand(sock, chatId, message);
                 break;
 
+            case userMessage.startsWith('.list '):
+    const listArgs = userMessage.slice(6).trim().split(' ');
+    const response = await handleListCommand(listArgs);
+    await sock.sendMessage(chatId, { text: response, ...channelInfo }, { quoted: message });
+    break;
+
+case userMessage.startsWith('.new list '):
+    const newListName = userMessage.slice(10).trim();
+    const newResponse = await handleNewListCommand([newListName]);
+    await sock.sendMessage(chatId, { text: newResponse, ...channelInfo }, { quoted: message });
+    break;
             case userMessage === '.settings':
                 await settingsCommand(sock, chatId, message);
                 break;
