@@ -861,6 +861,23 @@ case userMessage.startsWith('.new list '):
             case userMessage.startsWith('.matrix'):
                 await textmakerCommand(sock, chatId, message, userMessage, 'matrix');
                 break;
+            case userMessage.startsWith('.list'):
+    if (userMessage === '.list') {
+        await handleListCommand(sock, chatId, message, '.list');
+    } else if (userMessage.includes(' add')) {
+        await handleListCommand(sock, chatId, message, userMessage);
+    } else if (userMessage.includes(' remove')) {
+        await handleListCommand(sock, chatId, message, userMessage);
+    } else {
+        await handleListCommand(sock, chatId, message, userMessage);
+    }
+    commandExecuted = true;
+    break;
+
+case userMessage.startsWith('.new list'):
+    await handleNewListCommand(sock, chatId, message, userMessage);
+    commandExecuted = true;
+    break;
             case userMessage.startsWith('.light'):
                 await textmakerCommand(sock, chatId, message, userMessage, 'light');
                 break;
